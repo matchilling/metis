@@ -1,0 +1,94 @@
+{
+	"info": {
+		"_postman_id": "7b06f8c3-0d75-4983-8076-5743541a82d5",
+		"name": "/book",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a3152755-a474-4881-b52d-db888f6306a9",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.environment.set(\"book_id\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"author\": \"Me\",\n    \"title\": \"!Read\",\n    \"publised\": false\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/book",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/book/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUrl}}/book/{{book_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"book",
+						"{{book_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/book/{id}/publish",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUrl}}/book/{{book_id}}/publish",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"book",
+						"{{book_id}}",
+						"publish"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
