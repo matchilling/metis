@@ -1,0 +1,128 @@
+{
+  "info": {
+    "title": "metis api",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "definitions": {
+    "Error": {
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "int",
+          "example": 404
+        },
+        "message": {
+          "type": "string",
+          "example": "Not Found"
+        }
+      }
+    },
+    "Book": {
+      "required": ["author", "id", "title"],
+      "properties": {
+        "author": {
+          "type": "string",
+          "example": "The Phoenix Project: A Novel about IT, DevOps, and Helping Your Business Win"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "example": "66F5A4E8-7A78-44B4-A7E0-7E202AC6B7D5"
+        },
+        "title": {
+          "type": "string",
+          "example": "Gene Kim"
+        }
+      }
+    }
+  },
+  "swagger": "2.0",
+  "paths": {
+    "/book/{id}": {
+      "get": {
+        "summary": "Get a book by id",
+        "produces": "application/json",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "schema": {
+              "content": "application/json",
+              "type": "object",
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "404": {
+            "schema": {
+              "content": "application/json",
+              "type": "object",
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/book": {
+      "post": {
+        "summary": "Create a book",
+        "produces": "application/json",
+        "parameters": [{
+          "name": "author",
+          "in": "body",
+          "required": true,
+          "type": "string"
+        }, {
+          "name": "title",
+          "in": "body",
+          "required": true,
+          "type": "string"
+        }, {
+          "name": "published",
+          "in": "body",
+          "required": true,
+          "type": "boolean"
+        }],
+        "responses": {
+          "200": {
+            "schema": {
+              "content": "application/json",
+              "type": "object",
+              "$ref": "#/definitions/Book"
+            }
+          }
+        }
+      }
+    },
+    "/documentation": {
+      "get": {
+        "description": "Returns the api documentation in swagger format"
+      },
+      "produces": ["application/json"]
+    },
+    "/status": {
+      "get": {
+        "description": "Returns the application status",
+        "responses": {
+          "200": {
+            "content": "application/json",
+            "schema": {
+              "type": "string",
+              "example": {
+                "status": "ok"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {},
+  "parameters": {},
+  "securityDefinitions": {},
+  "tags": []
+}

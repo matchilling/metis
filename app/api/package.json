@@ -1,0 +1,35 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "nodemon server.js",
+    "lint": "prettier --config ./config/.prettierrc --debug-check 'src/**/*.js' 'test/**/*.js' '../../README.md'",
+    "lint:fix": "prettier --config ./config/.prettierrc --write 'src/**/*.js' 'test/**/*.js' '../../README.md'",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:integration": "nyc mocha ./src/handler/**/*.spec.js",
+    "test:unit": "nyc mocha ./src/lib/**/*.spec.js",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.12",
+    "express": "^4.16.4",
+    "swagger-jsdoc": "^3.2.9",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.0",
+    "nyc": "^14.1.1",
+    "prettier": "^1.17.1",
+    "sinon": "^7.3.2",
+    "supertest": "^4.0.2"
+  }
+}

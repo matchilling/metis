@@ -1,0 +1,40 @@
+{
+  "info": {
+    "title": "metis api",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "definitions": {
+    "Error": {
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "int",
+          "example": 404
+        },
+        "message": {
+          "type": "string",
+          "example": "Not Found"
+        }
+      }
+    },
+    "Book": {
+      "required": ["author", "id", "title"],
+      "properties": {
+        "author": {
+          "type": "string",
+          "example": "The Phoenix Project: A Novel about IT, DevOps, and Helping Your Business Win"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "example": "66F5A4E8-7A78-44B4-A7E0-7E202AC6B7D5"
+        },
+        "title": {
+          "type": "string",
+          "example": "Gene Kim"
+        }
+      }
+    }
+  }
+}
