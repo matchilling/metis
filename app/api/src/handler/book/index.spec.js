@@ -1,7 +1,9 @@
 const assert = require('chai').assert
 const BookRepository = require('../../lib/bookRepository')
 const createApp = require('./../../../test/app')
+const MessageBroker = require('../../lib/messageBroker')
 const request = require('supertest')
+const sinon = require('sinon')
 
 describe('GET /book/{id}', () => {
   it('returns 404 if book does not exist', () => {
@@ -73,13 +75,30 @@ describe('POST /book', () => {
 })
 
 describe('GET /book/{id}/publish', () => {
+  const messageBroker = new MessageBroker()
+  const stubSendMessage = sinon.stub(messageBroker, 'sendMessage')
+
   it('returns 200', () => {
-    return request(createApp())
+    return request(
+      createApp({
+        messageBroker,
+      })
+    )
       .get('/book/66F5A4E8-7A78-44B4-A7E0-7E202AC6B7D5/publish')
       .send()
       .expect(200)
       .then(response => {
         const { publishedAt } = response.body
+
+        sinon.assert.calledWith(
+          stubSendMessage,
+          'book:published',
+          JSON.stringify({
+            id: '66F5A4E8-7A78-44B4-A7E0-7E202AC6B7D5',
+            publishedAt: publishedAt,
+          })
+        )
+
         assert.match(
           publishedAt,
           /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/

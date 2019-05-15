@@ -1,6 +1,6 @@
 const wrap = require('../../lib/middleware/wrap')
 
-module.exports = ({ app, bookRepository, logger }) => {
+module.exports = ({ app, bookRepository, logger, messageBroker }) => {
   /**
    * @swagger
    * /book/{id}:
@@ -63,7 +63,19 @@ module.exports = ({ app, bookRepository, logger }) => {
   app.get(
     '/book/:id/publish',
     wrap(async (req, res, next) => {
-      res.json(await bookRepository.publish(req.params.id))
+      const { publishedAt } = await bookRepository.publish(req.params.id)
+
+      await messageBroker.sendMessage(
+        'book:published',
+        JSON.stringify({
+          id: req.params.id,
+          publishedAt,
+        })
+      )
+
+      res.json({
+        publishedAt,
+      })
     })
   )
 

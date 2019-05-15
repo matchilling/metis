@@ -7,3 +7,8 @@
 ```sh
 $ docker-compose up
 ```
+
+**Urls:**
+  - API: [http://localhost:8080](http://localhost:8080)
+  - RabbitMQ management UI: [http://localhost:15672](http://localhost:15672)
+  - Swagger UI: [http://localhost:4567](http://localhost:4567)

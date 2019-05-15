@@ -13,6 +13,17 @@ services:
       - "8080:8080"
     environment:
       PORT: 8080
+      MESSAGE_QUEUE: 'amqp://rabbitmq'
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    # image: rabbitmq:3.7.14-alpine
+    image: rabbitmq:3-management
+    container_name: metis-rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
 
   swagger:
     image: swaggerapi/swagger-ui
