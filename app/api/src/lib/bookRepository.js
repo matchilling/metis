@@ -1,4 +1,8 @@
-const { ResourceNotFoundError, UnprocessableEntityError } = require('./error')
+const {
+  EntityValidationError,
+  ResourceNotFoundError,
+  UnprocessableEntityError,
+} = require('./error')
 const uuid4 = require('uuid/v4')
 
 const books = [
@@ -29,7 +33,7 @@ class BookRepository {
 
     const publishedAt = new Date().toISOString()
     await this.save({
-      book,
+      ...book,
       published: true,
     })
 
@@ -39,6 +43,13 @@ class BookRepository {
   }
 
   async save(data) {
+    if (!data.author) {
+      throw new EntityValidationError('Missing field "author"')
+    }
+    if (!data.title) {
+      throw new EntityValidationError('Missing field "title"')
+    }
+
     const book = {
       id: data.id || uuid4(),
       author: data.author,

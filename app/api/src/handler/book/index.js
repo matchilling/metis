@@ -57,7 +57,7 @@ module.exports = ({ app, bookRepository, logger }) => {
    *         type: string
    *       - name: published
    *         in:  body
-   *         required: true
+   *         required: false
    *         type: boolean
    *     responses:
    *       200:
@@ -65,6 +65,11 @@ module.exports = ({ app, bookRepository, logger }) => {
    *           content: application/json
    *           type: object
    *           $ref: '#/definitions/Book'
+   *       400:
+   *         schema:
+   *           content: application/json
+   *           type: object
+   *           $ref: '#/definitions/Error'
    */
   app.post(
     '/book',

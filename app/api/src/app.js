@@ -26,8 +26,9 @@ module.exports = dependencies => {
   app.use((error, req, res, next) => {
     logger.error(error)
 
-    if (error.code === 404) {
-      return res.status(404).json({
+    const gracefullyHandleErrors = [400, 404, 412]
+    if (-1 < gracefullyHandleErrors.indexOf(error.code)) {
+      return res.status(error.code).json({
         status: error.code,
         message: error.message || '',
       })

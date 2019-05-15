@@ -84,7 +84,7 @@
         }, {
           "name": "published",
           "in": "body",
-          "required": true,
+          "required": false,
           "type": "boolean"
         }],
         "responses": {
@@ -93,6 +93,13 @@
               "content": "application/json",
               "type": "object",
               "$ref": "#/definitions/Book"
+            }
+          },
+          "400": {
+            "schema": {
+              "content": "application/json",
+              "type": "object",
+              "$ref": "#/definitions/Error"
             }
           }
         }

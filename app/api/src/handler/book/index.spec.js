@@ -50,6 +50,25 @@ describe('POST /book', () => {
         assert.equal(published, false)
       })
   })
+
+  it('returns 400 if author or title are missing', () => {
+    return request(createApp())
+      .post('/book')
+      .send({
+        title:
+          'The DevOps Handbook: How to Create World-Class Agility, Reliability, and Security in Technology Organizations',
+        published: false,
+      })
+      .expect(400)
+
+    return request(createApp())
+      .post('/book')
+      .send({
+        author: 'Gene Kim',
+        published: false,
+      })
+      .expect(400)
+  })
 })
 
 describe('GET /book/{id}/publish', () => {

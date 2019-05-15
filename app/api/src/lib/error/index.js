@@ -1,3 +1,12 @@
+class EntityValidationError extends Error {
+  constructor(message) {
+    super(message)
+
+    this.name = 'EntityValidationError'
+    this.code = 400
+  }
+}
+
 class ResourceNotFoundError extends Error {
   constructor(message) {
     super(message)
@@ -17,6 +26,7 @@ class UnprocessableEntityError extends Error {
 }
 
 module.exports = {
+  EntityValidationError,
   ResourceNotFoundError,
   UnprocessableEntityError,
 }
