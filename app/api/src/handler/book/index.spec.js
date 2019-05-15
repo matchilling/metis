@@ -1,4 +1,5 @@
 const assert = require('chai').assert
+const BookRepository = require('../../lib/bookRepository')
 const createApp = require('./../../../test/app')
 const request = require('supertest')
 
@@ -84,5 +85,27 @@ describe('GET /book/{id}/publish', () => {
           /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/
         )
       })
+  })
+
+  it('returns 412 if book has already been published', () => {
+    const bookRepository = new BookRepository()
+    bookRepository.fetch = async () => {
+      return {
+        id: '56F5A4E8-7A78-44B4-A7E0-7E202AC6B7D5',
+        author: 'Gene Kim',
+        title:
+          'The DevOps Handbook: How to Create World-Class Agility, Reliability, and Security in Technology Organizations',
+        published: true,
+      }
+    }
+
+    const app = createApp({
+      bookRepository,
+    })
+
+    return request(app)
+      .get('/book/56F5A4E8-7A78-44B4-A7E0-7E202AC6B7D5/publish')
+      .send()
+      .expect(412)
   })
 })

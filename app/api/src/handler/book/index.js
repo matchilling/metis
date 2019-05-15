@@ -31,12 +31,39 @@ module.exports = ({ app, bookRepository, logger }) => {
     })
   )
 
+  /**
+   * @swagger
+   * /book/{id}/publish:
+   *   get:
+   *     summary: Publish a book
+   *     produces: application/json
+   *     parameters:
+   *       - name: id
+   *         in:  path
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         content: application/json
+   *         schema:
+   *           type: string
+   *           example:
+   *             publishedAt: "2019-05-15T09:57:41.379Z"
+   *       404:
+   *         schema:
+   *           content: application/json
+   *           type: object
+   *           $ref: '#/definitions/Error'
+   *       412:
+   *         schema:
+   *           content: application/json
+   *           type: object
+   *           $ref: '#/definitions/Error'
+   */
   app.get(
     '/book/:id/publish',
     wrap(async (req, res, next) => {
-      res.json({
-        publishedAt: new Date().toISOString(),
-      })
+      res.json(await bookRepository.publish(req.params.id))
     })
   )
 
