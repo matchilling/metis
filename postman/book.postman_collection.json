@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "7b06f8c3-0d75-4983-8076-5743541a82d5",
-		"name": "/book",
+		"_postman_id": "ba2cbd6e-e49c-412d-9b32-47c1e070380b",
+		"name": "book",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -13,8 +13,29 @@
 					"script": {
 						"id": "a3152755-a474-4881-b52d-db888f6306a9",
 						"exec": [
+							"pm.environment.unset(\"book_id\");",
 							"var jsonData = JSON.parse(responseBody);",
-							"pm.environment.set(\"book_id\", jsonData.id);"
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response must be valid and have a body\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.sendRequest(pm.environment.get(\"baseUrl\") + \"/documentation\", function (err, response) {",
+							"    var schema = response.json();",
+							"    ",
+							"    pm.test('Schema is valid', function() {",
+							"        pm.expect(tv4.validate(jsonData, schema.definitions.Book)).to.be.true;",
+							"        ",
+							"        pm.environment.set(\"book_id\", jsonData.id);",
+							"    });",
+							"});",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -47,6 +68,40 @@
 		},
 		{
 			"name": "/book/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d9daf591-0f99-4aa8-bd19-3c4780d33078",
+						"exec": [
+							"pm.environment.unset(\"book_id\");",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response must be valid and have a body\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.sendRequest(pm.environment.get(\"baseUrl\") + \"/documentation\", function (err, response) {",
+							"    var schema = response.json();",
+							"    ",
+							"    pm.test('Schema is valid', function() {",
+							"        pm.expect(tv4.validate(jsonData, schema.definitions.Book)).to.be.true;",
+							"        ",
+							"        pm.environment.set(\"book_id\", jsonData.id);",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -69,6 +124,46 @@
 		},
 		{
 			"name": "/book/{id}/publish",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "274f6da1-ef76-43a7-9b42-05899653cd1f",
+						"exec": [
+							"pm.environment.unset(\"book_id\");",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response must be valid and have a body\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test('Schema is valid', function() {",
+							"    var schema = {",
+							"      \"required\": [\"publishedAt\"],",
+							"      \"properties\": {",
+							"        \"publishedAt\": {",
+							"          \"type\": \"string\",",
+							"          \"example\": \"2019-05-15T09:57:41.379Z\"",
+							"        }",
+							"      }",
+							"    }",
+							"    ",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"    ",
+							"    pm.environment.set(\"book_id\", jsonData.id);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -89,6 +184,28 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "6d3d04bd-1ba0-495b-b575-fa0d06f924d3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "884b643b-72e4-45c7-89da-8e7da5425069",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
