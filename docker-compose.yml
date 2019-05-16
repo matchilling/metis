@@ -9,6 +9,7 @@ services:
     command: npm run dev
     volumes:
       - ./app/api:/var/www/current
+      - /var/www/current/node_modules/
     ports:
       - "8080:8080"
     environment:

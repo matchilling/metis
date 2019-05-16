@@ -24,13 +24,19 @@ module.exports = dependencies => {
       const elapsedTimeInMs = elapsedHrTime[0] * 1000 + elapsedHrTime[1] / 1000
 
       const method = req.method || 'undefined_method'
+      if (!req.route || !req.route.path) {
+        return
+      }
+
       var path = req.route.path
         .replace(/\//g, '_')
         .replace(/\:/g, '')
         .substring(1)
 
       const metric = {
-        [`metis.${method.toLowerCase()}.${res.statusCode}.${method}_${path}.response_time`]: elapsedTimeInMs,
+        [`metis.${method.toLowerCase()}.${
+          res.statusCode
+        }.${method}_${path}.response_time`]: elapsedTimeInMs,
       }
       graphite.write(metric, err => {
         if (err) {

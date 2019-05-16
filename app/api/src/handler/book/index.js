@@ -86,18 +86,12 @@ module.exports = ({ app, bookRepository, logger, messageBroker }) => {
    *     summary: Create a book
    *     produces: application/json
    *     parameters:
-   *       - name: author
+   *       - name: body
    *         in:  body
    *         required: true
-   *         type: string
-   *       - name: title
-   *         in:  body
-   *         required: true
-   *         type: string
-   *       - name: published
-   *         in:  body
-   *         required: false
-   *         type: boolean
+   *         schema:
+   *           type: object
+   *           $ref: '#/definitions/Book'
    *     responses:
    *       200:
    *         schema:
