@@ -3,7 +3,7 @@ const handler = require('./handler')
 const routes = require('./routes')
 
 module.exports = dependencies => {
-  const { logger } = dependencies
+  const { logger, graphite } = dependencies
   const app = express()
 
   app.use((req, res, next) => {
@@ -15,6 +15,32 @@ module.exports = dependencies => {
     next()
   })
   app.use(express.json())
+
+  function logResponseTime(req, res, next) {
+    const startHrTime = process.hrtime()
+
+    res.on('finish', () => {
+      const elapsedHrTime = process.hrtime(startHrTime)
+      const elapsedTimeInMs = elapsedHrTime[0] * 1000 + elapsedHrTime[1] / 1000
+
+      const method = req.method || 'undefined_method'
+      var path = req.route.path
+        .replace(/\//g, '_')
+        .replace(/\:/g, '')
+        .substring(1)
+
+      const metric = {
+        [`metis.${method.toLowerCase()}.${res.statusCode}.${method}_${path}.response_time`]: elapsedTimeInMs,
+      }
+      graphite.write(metric, err => {
+        if (err) {
+          logger.error(err)
+        }
+      })
+    })
+    next()
+  }
+  app.use(logResponseTime)
 
   // Set up routes
   routes.setup({

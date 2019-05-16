@@ -3,7 +3,7 @@ MAINTAINER Mathias Schilling <m@matchilling.com>
 
 ENV APP_PATH /var/www/current
 
-RUN apk add --update bash && \
+RUN apk add --no-cache bash make gcc g++ python && \
     rm -rf /var/cache/apk/*
 
 RUN mkdir -p $APP_PATH
